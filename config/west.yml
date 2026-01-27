@@ -1,11 +1,52 @@
+# West manifest for Zenith-ZMK
+# Includes urob's ZMK modules for advanced features
+#
+# To set up local build environment:
+#   west init -l config
+#   west update
+#   west zephyr-export
+
 manifest:
+  defaults:
+    remote: urob
+
   remotes:
-  - name: zmkfirmware
-    url-base: https://github.com/zmkfirmware
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: urob
+      url-base: https://github.com/urob
+
   projects:
-  - name: zmk
-    remote: zmkfirmware
-    revision: main
-    import: app/west.yml
+    # Core ZMK firmware
+    - name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
+
+    # Urob's ZMK modules for advanced features
+    - name: zmk-helpers
+      revision: main
+      path: modules/zmk/helpers
+
+    - name: zmk-auto-layer
+      revision: main
+      path: modules/zmk/auto-layer
+
+    - name: zmk-tri-state
+      revision: main
+      path: modules/zmk/tri-state
+
+    - name: zmk-adaptive-key
+      revision: main
+      path: modules/zmk/adaptive-key
+
+    - name: zmk-leader-key
+      revision: main
+      path: modules/zmk/leader-key
+
+    - name: zmk-unicode
+      revision: main
+      path: modules/zmk/unicode
+
   self:
     path: config

@@ -1,0 +1,95 @@
+/*
+ * Leader key sequences for Zenith-ZMK
+ *
+ * Leader key allows multi-key sequences for special actions.
+ * Trigger: combo on R+S keys (see combos.dtsi)
+ *
+ * Sequences:
+ *   RESET  -> System reset
+ *   BOOT   -> Enter bootloader
+ *   USB    -> Switch to USB output
+ *   BLE    -> Switch to Bluetooth output
+ *   WIN    -> Set Unicode mode to Windows (WinCompose)
+ *   MAC    -> Set Unicode mode to macOS
+ *   LIN    -> Set Unicode mode to Linux
+ */
+
+#include <behaviors/unicode.dtsi>
+#include <dt-bindings/zmk/outputs.h>
+
+/* Configure Unicode for Windows (WinCompose) by default */
+&uc {
+    default-mode = <UC_MODE_WIN_COMPOSE>;
+    minimum-length = <4>;
+};
+
+/*
+ * Leader key definition macro
+ * Creates sequences within the leader behavior
+ */
+#undef ZMK_LEADER_SEQUENCE
+#define ZMK_LEADER_SEQUENCE(name, leader_bindings, leader_sequence) \
+    / { \
+        behaviors { \
+            leader: leader { \
+                compatible = "zmk,behavior-leader-key"; \
+                #binding-cells = <0>; \
+                ignore-keys = <LSHFT RSHFT>; \
+                leader_sequence_##name { \
+                    bindings = <leader_bindings>; \
+                    sequence = <leader_sequence>; \
+                }; \
+            }; \
+        }; \
+    };
+
+/*
+ * System commands
+ */
+
+/* RESET: Type R E S E T to reset keyboard */
+ZMK_LEADER_SEQUENCE(reset, &sys_reset, R E S E T)
+
+/* BOOT: Type B O O T to enter bootloader for flashing */
+ZMK_LEADER_SEQUENCE(boot, &bootloader, B O O T)
+
+/*
+ * Output switching (Bluetooth/USB)
+ */
+
+#ifdef CONFIG_WIRELESS
+/* USB: Type U S B to switch to USB output */
+ZMK_LEADER_SEQUENCE(usb, &out OUT_USB, U S B)
+
+/* BLE: Type B L E to switch to Bluetooth output */
+ZMK_LEADER_SEQUENCE(ble, &out OUT_BLE, B L E)
+#endif
+
+/*
+ * Unicode mode switching
+ *
+ * Different operating systems have different methods for Unicode input.
+ * These sequences let you switch between them.
+ */
+
+/* WIN: Set Unicode mode to Windows (WinCompose) */
+ZMK_LEADER_SEQUENCE(uc_win, &uc UC_SET_WIN_COMPOSE, W I N)
+
+/* MAC: Set Unicode mode to macOS */
+ZMK_LEADER_SEQUENCE(uc_mac, &uc UC_SET_MACOS, M A C)
+
+/* LIN: Set Unicode mode to Linux (ibus/fcitx) */
+ZMK_LEADER_SEQUENCE(uc_linux, &uc UC_SET_LINUX, L I N)
+
+/*
+ * Sticky shift + leader for quick uppercase sequences
+ */
+/ {
+    macros {
+        leader_sft: leader_sft {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&sk LSHFT &leader>;
+        };
+    };
+};

@@ -1,0 +1,164 @@
+/*
+ * Combo definitions for 42-key TOTEM variant
+ * Ported from urob's zmk-config with adaptations for 6-column layout
+ *
+ * Combos provide fast access to symbols without a dedicated layer.
+ *
+ * Key positions reference (see key-labels-42.h):
+ *
+ * ╭──────────────────────────────────╮   ╭──────────────────────────────────╮
+ * │ LT5  LT4  LT3  LT2  LT1  LT0    │   │ RT0  RT1  RT2  RT3  RT4  RT5    │
+ * │ LM5  LM4  LM3  LM2  LM1  LM0    │   │ RM0  RM1  RM2  RM3  RM4  RM5    │
+ * │ LB5  LB4  LB3  LB2  LB1  LB0    │   │ RB0  RB1  RB2  RB3  RB4  RB5    │
+ * ╰───────────╮ LH2  LH1  LH0       │   │      RH0  RH1  RH2 ╭────────────╯
+ *             ╰─────────────────────╯   ╰──────────────────────╯
+ */
+
+#include <dt-bindings/zmk/keys.h>
+
+/* Combo timing settings */
+#define COMBO_TERM_FAST 18
+#define COMBO_TERM_SLOW 30
+#define COMBO_IDLE_FAST 150
+#define COMBO_IDLE_SLOW 50
+
+/* Macro for defining combos with consistent settings */
+#define ZMK_COMBO(NAME, BINDINGS, KEYPOS, LAYERS, TERM, IDLE) \
+    combo_##NAME { \
+        timeout-ms = <TERM>; \
+        require-prior-idle-ms = <IDLE>; \
+        key-positions = <KEYPOS>; \
+        bindings = <BINDINGS>; \
+        layers = <LAYERS>; \
+    };
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+
+        /*
+         * Horizontal combos - Left hand
+         */
+
+        /* Escape: Q + W (top row, outer) */
+        ZMK_COMBO(esc, &kp ESC, LT4 LT3, DEF NAV NUM GAMING, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Tab: A + R (home row) */
+        ZMK_COMBO(tab, &kp TAB, LM4 LM3, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Leader key: R + S (home row) */
+        ZMK_COMBO(leader, &leader, LM3 LM2, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Cut: Z + C (bottom row) */
+        ZMK_COMBO(cut, &kp LC(X), LB4 LB2, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Copy: Z + X (bottom row) */
+        ZMK_COMBO(copy, &kp LC(C), LB4 LB3, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Paste: X + C (bottom row) */
+        ZMK_COMBO(paste, &kp LC(V), LB3 LB2, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Undo: outer + Z (bottom row) */
+        ZMK_COMBO(undo, &kp LC(Z), LB5 LB4, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Redo: outer + X (bottom row) */
+        ZMK_COMBO(redo, &kp LC(Y), LB5 LB3, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /*
+         * Horizontal combos - Right hand
+         */
+
+        /* Backspace: U + Y (top row) */
+        ZMK_COMBO(bspc, &kp BSPC, RT2 RT3, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Delete: Y + outer (top row) */
+        ZMK_COMBO(del, &kp DEL, RT3 RT4, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Enter: E + I (home row) */
+        ZMK_COMBO(enter, &kp RET, RM2 RM3, DEF NAV NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Left paren: N + E (home row) */
+        ZMK_COMBO(lpar, &lpar_lt, RM1 RM2, DEF NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Right paren: E + I (home row) - different layer for angle brackets */
+        ZMK_COMBO(rpar, &rpar_gt, RM2 RM3, DEF NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Left bracket: H + comma (bottom row) */
+        ZMK_COMBO(lbkt, &kp LBKT, RB1 RB2, DEF NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Right bracket: comma + dot (bottom row) */
+        ZMK_COMBO(rbkt, &kp RBKT, RB2 RB3, DEF NUM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Left brace: H + comma on NAV layer */
+        ZMK_COMBO(lbrc, &kp LBRC, RB1 RB2, NAV, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /* Right brace: comma + dot on NAV layer */
+        ZMK_COMBO(rbrc, &kp RBRC, RB2 RB3, NAV, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+        /*
+         * Vertical combos - Left hand (symbols)
+         */
+
+        /* @ : Q + A (column 4) */
+        ZMK_COMBO(at, &kp AT, LT4 LM4, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* # : W + R (column 3) */
+        ZMK_COMBO(hash, &kp HASH, LT3 LM3, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* $ : E + S (column 2) */
+        ZMK_COMBO(dllr, &kp DLLR, LT2 LM2, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* % : R + T (column 1) */
+        ZMK_COMBO(prcnt, &kp PRCNT, LT1 LM1, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* ` : A + Z (column 4) */
+        ZMK_COMBO(grave, &kp GRAVE, LM4 LB4, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* \ : R + X (column 3) */
+        ZMK_COMBO(bslh, &kp BSLH, LM3 LB3, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* = : S + C (column 2) */
+        ZMK_COMBO(equal, &kp EQUAL, LM2 LB2, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* ~ : T + V (column 1) */
+        ZMK_COMBO(tilde, &kp TILDE, LM1 LB1, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /*
+         * Vertical combos - Right hand (symbols)
+         */
+
+        /* ^ : Y + N (column 1 from center) */
+        ZMK_COMBO(caret, &kp CARET, RT1 RM1, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* + : U + E (column 2) */
+        ZMK_COMBO(plus, &kp PLUS, RT2 RM2, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* * : I + I (column 3) */
+        ZMK_COMBO(star, &kp STAR, RT3 RM3, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* & : O + O (column 4) */
+        ZMK_COMBO(amps, &kp AMPS, RT4 RM4, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* _ : N + H (column 1) */
+        ZMK_COMBO(under, &kp UNDER, RM1 RB1, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* - : E + comma (column 2) */
+        ZMK_COMBO(minus, &kp MINUS, RM2 RB2, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* / : I + dot (column 3) */
+        ZMK_COMBO(fslh, &kp FSLH, RM3 RB3, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /* | : O + ? (column 4) */
+        ZMK_COMBO(pipe, &kp PIPE, RM4 RB4, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /*
+         * Gaming layer toggle - both outer top keys
+         */
+        ZMK_COMBO(gaming_toggle, &tog GAMING, LT5 RT5, DEF GAMING, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
+        /*
+         * Caps word - both shift positions (inner bottom)
+         */
+        ZMK_COMBO(caps_word, &caps_word, LB0 RB0, DEF NAV NUM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+    };
+};
