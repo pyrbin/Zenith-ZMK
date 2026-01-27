@@ -1,8 +1,7 @@
 /_external
 /.claude
-/zephyr
 /zmk
-/zephyr
 /optional
 /modules
 /.west
+/.build
