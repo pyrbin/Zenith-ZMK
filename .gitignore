@@ -4,3 +4,5 @@
 /zmk
 /zephyr
 /optional
+/modules
+/.west
