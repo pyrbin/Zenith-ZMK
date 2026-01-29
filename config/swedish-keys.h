@@ -88,8 +88,8 @@
 /* ^ (Caret) - Shift+Diaeresis key (RBKT) */
 #define SWE_CARET &kp LS(RBKT)
 
-/* | (Pipe) - AltGr+< key (GRAVE on US layout) */
-#define SWE_PIPE &kp RA(GRAVE)
+/* | (Pipe) - AltGr+< key (NUBS key left of Z) */
+#define SWE_PIPE &kp RA(NUBS)
 
 /* \ (Backslash) - AltGr++ key (MINUS on US layout) */
 #define SWE_BSLH &kp RA(MINUS)
@@ -116,6 +116,12 @@
 
 /* ' (Apostrophe/Single Quote) */
 #define SWE_SQT &kp SQT
+
+/* < (Less than) - NUBS key (key left of Z) */
+#define SWE_LT &kp NUBS
+
+/* > (Greater than) - Shift+NUBS */
+#define SWE_GT &kp LS(NUBS)
 
 /* ===== CONVENIENCE ALIASES ===== */
 

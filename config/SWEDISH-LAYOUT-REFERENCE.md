@@ -66,12 +66,14 @@ When your OS is set to **Swedish layout**, ZMK sends US keycodes that the OS int
 
 | Swedish Symbol | Description | ZMK Keycode | Definition Name |
 |----------------|-------------|-------------|-----------------|
-| < | Less than | `GRAVE` | - |
-| > | Greater than | `LS(GRAVE)` | - |
+| < | Less than | `NUBS` | `SWE_LT` |
+| > | Greater than | `LS(NUBS)` | `SWE_GT` |
+| § | Section | `GRAVE` | - |
+| ½ | Half | `LS(GRAVE)` | - |
 | - | Hyphen/Minus | `SLASH` | `SWE_MINUS` |
 | _ | Underscore | `LS(SLASH)` | `SWE_UNDER` |
 | \ | Backslash | `RA(MINUS)` | `SWE_BSLH` |
-| \| | Pipe | `RA(GRAVE)` | `SWE_PIPE` |
+| \| | Pipe | `RA(NUBS)` | `SWE_PIPE` |
 | , | Comma | `COMMA` | `SWE_COMMA` |
 | . | Period | `DOT` | `SWE_DOT` |
 | : | Colon | `LS(DOT)` | `SWE_COLON` |
@@ -123,9 +125,10 @@ When your OS is set to **Swedish layout**, ZMK sends US keycodes that the OS int
    - Unshifted: `´` (use `EQUAL` in ZMK)
    - Shifted: `` ` `` (use `LS(EQUAL)` in ZMK)
 
-4. **Less than and greater than** are on the key left of Z:
-   - Unshifted: `<` (use `GRAVE` in ZMK)
-   - Shifted: `>` (use `LS(GRAVE)` in ZMK)
+4. **Less than and greater than** are on the key left of Z (NUBS key):
+   - Unshifted: `<` (use `NUBS` in ZMK)
+   - Shifted: `>` (use `LS(NUBS)` in ZMK)
+   - Note: The `§` and `½` symbols are on the GRAVE key (top-left corner)
 
 5. **Special slash behavior**:
    - `/` is Shift+7 (`LS(N7)`)

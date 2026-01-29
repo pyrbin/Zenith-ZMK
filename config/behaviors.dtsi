@@ -212,14 +212,14 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
         lpar_lt: lpar_lt {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LS(N8)>, <&kp GRAVE>;
+            bindings = <&kp LS(N8)>, <&kp NUBS>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
         /* Parentheses for Swedish: tap = ) | shift = > */
         rpar_gt: rpar_gt {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LS(N9)>, <&kp LS(GRAVE)>;
+            bindings = <&kp LS(N9)>, <&kp LS(NUBS)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
 
@@ -295,6 +295,19 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
             quick-tap-ms = <QUICK_TAP_MS>;
             bindings = <&mo>, <&bs_del>;
         };
+
+        /* Tab with FN layer tap
+         * Tap: tab
+         * Hold: FN layer
+         */
+        lt_tab: lt_tab {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            bindings = <&mo>, <&kp>;
+        };
     };
 
     macros {
@@ -360,6 +373,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
 #define SMART_NUM &smart_num NUM 0
 #define NAV_SPC &lt_spc NAV 0
 #define FN_BSDEL &lt_bsdel FN 0
+#define FN_TAB &lt_tab FN TAB
 #define NAV_LEFT &nav_left HOME LEFT
 #define NAV_RIGHT &nav_right END RIGHT
 #define NAV_BSPC &mt LC(BSPC) BSPC
