@@ -8,11 +8,15 @@
  * - Smart num layer (num_word + tap dance)
  * - Alt+Tab swapper
  * - Mod-morphs for punctuation
+ * - Swedish keyboard layout support
  */
 
 #include <behaviors.dtsi>
 #include <behaviors/num_word.dtsi>
 #include <dt-bindings/zmk/keys.h>
+
+/* Swedish keyboard layout support */
+#include "swedish-keys.h"
 
 /* Global timing settings */
 #define QUICK_TAP_MS 175
@@ -163,12 +167,12 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
 };
 
 /*
- * Mod-Morphs for punctuation
+ * Mod-Morphs for punctuation (Swedish keyboard layout)
  */
 
 / {
     behaviors {
-        /* Comma: tap = , | shift = ; | ctrl+shift = < */
+        /* Comma: tap = , | shift = ; (Swedish layout) */
         comma_morph: comma_morph {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -178,11 +182,11 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
         comma_inner: comma_inner {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp SEMICOLON>, <&kp LESS_THAN>;
+            bindings = <&kp LS(COMMA)>, <&kp LESS_THAN>;
             mods = <(MOD_LCTL | MOD_RCTL)>;
         };
 
-        /* Dot: tap = . | shift = : | ctrl+shift = > */
+        /* Dot: tap = . | shift = : (Swedish layout) */
         dot_morph: dot_morph {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -192,29 +196,45 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
         dot_inner: dot_inner {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp COLON>, <&kp GREATER_THAN>;
+            bindings = <&kp LS(DOT)>, <&kp GREATER_THAN>;
             mods = <(MOD_LCTL | MOD_RCTL)>;
         };
 
-        /* Question/Exclamation: tap = ? | shift = ! */
+        /* Question/Exclamation: tap = ? (Shift+Plus) | shift = ! (Shift+1) */
         qexcl: qexcl {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp QMARK>, <&kp EXCL>;
+            bindings = <&kp LS(EQUAL)>, <&kp LS(N1)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
 
-        /* Parentheses with shift for angle brackets */
+        /* Parentheses for Swedish: tap = ( | shift = < */
         lpar_lt: lpar_lt {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LPAR>, <&kp LT>;
+            bindings = <&kp LS(N8)>, <&kp LESS_THAN>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
+        /* Parentheses for Swedish: tap = ) | shift = > */
         rpar_gt: rpar_gt {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp RPAR>, <&kp GT>;
+            bindings = <&kp LS(N9)>, <&kp GREATER_THAN>;
+            mods = <(MOD_LSFT | MOD_RSFT)>;
+        };
+
+        /* Brackets for Swedish: tap = [ | shift = { */
+        lbkt_lbrc: lbkt_lbrc {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LBKT>, <&kp LS(RBKT)>;
+            mods = <(MOD_LSFT | MOD_RSFT)>;
+        };
+        /* Brackets for Swedish: tap = ] | shift = } */
+        rbkt_rbrc: rbkt_rbrc {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RBKT>, <&kp LS(LBKT)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
 
@@ -225,6 +245,14 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
             bindings = <&kp BSPC>, <&kp DEL>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
             keep-mods = <(MOD_RSFT)>;
+        };
+
+        /* Double quote/Single quote (Swedish): tap = " | shift = ' */
+        dblquote_singlequote: dblquote_singlequote {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LS(N2)>, <&kp SQT>;
+            mods = <(MOD_LSFT | MOD_RSFT)>;
         };
     };
 };
@@ -253,6 +281,19 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
             #binding-cells = <0>;
             bindings = <&kp SPACE>, <&dot_spc>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
+        };
+
+        /* Backspace/Delete with FN layer tap
+         * Tap: backspace (or delete with shift)
+         * Hold: FN layer
+         */
+        lt_bsdel: lt_bsdel {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            bindings = <&mo>, <&bs_del>;
         };
     };
 
@@ -318,6 +359,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
 #define MAGIC_SHIFT &magic_shift LSHFT 0
 #define SMART_NUM &smart_num NUM 0
 #define NAV_SPC &lt_spc NAV 0
+#define FN_BSDEL &lt_bsdel FN 0
 #define NAV_LEFT &nav_left HOME LEFT
 #define NAV_RIGHT &nav_right END RIGHT
 #define NAV_BSPC &mt LC(BSPC) BSPC

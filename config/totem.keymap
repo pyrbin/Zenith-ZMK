@@ -13,9 +13,9 @@
  * Layers:
  *   0 - DEF    : Base QWERTY with homerow mods
  *   1 - NAV    : Navigation, editing, media
- *   2 - GAMING : Gaming (QWERTY left, no HRMs)
+ *   2 - GAME : Gaming (QWERTY left, no HRMs)
  *   3 - NUM    : Numbers and function keys
- *   4 - SYS    : System (Bluetooth, reset)
+ *   4 - FN     : Function (reserved for future use)
  */
 
 #include <behaviors.dtsi>
@@ -27,12 +27,15 @@
 /* Key position labels for 42-key layout */
 #include "key-labels-42.h"
 
+/* Swedish keyboard layout support */
+#include "swedish-keys.h"
+
 /* Layer definitions */
 #define DEF 0
 #define NAV 1
-#define GAMING 2
+#define GAME 2
 #define NUM 3
-#define SYS 4
+#define FN 4
 
 /* Convenience aliases */
 #define XXX &none
@@ -43,13 +46,13 @@
 #include "combos.dtsi"
 #include "leader.dtsi"
 
-/* Conditional layer: NAV + NUM = SYS */
+/* Conditional layer: NAV + NUM = FN */
 / {
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        sys_layer {
+        fn_layer {
             if-layers = <NAV NUM>;
-            then-layer = <SYS>;
+            then-layer = <FN>;
         };
     };
 };
@@ -61,33 +64,29 @@
         /*
          * Base Layer (DEF) - QWERTY with Homerow Mods
          *
-         * Homerow mods: GUI-ALT-SHIFT-CTRL (GACS) on home row
-         * Left hand:  A=GUI, S=ALT, D=SHIFT, F=CTRL
-         * Right hand: J=CTRL, K=SHIFT, L=ALT, ;=GUI
-         *
          * ╭──────┬──────┬──────┬──────┬──────┬──────╮   ╭──────┬──────┬──────┬──────┬──────┬──────╮
-         * │ TAB  │  Q   │  W   │  E   │  R   │  T   │   │  Y   │  U   │  I   │  O   │  P   │ BSPC │
+         * │      │  Q   │  W   │  E   │  R   │  T   │   │  Y   │  U   │  I   │  O   │  P   │  Å   │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │ ESC  │  A   │  S   │  D   │  F   │  G   │   │  H   │  J   │  K   │  L   │  ;   │  '   │
-         * │      │ GUI  │ ALT  │ SHFT │ CTRL │      │   │      │ CTRL │ SHFT │ ALT  │ GUI  │      │
+         * │      │  A   │  S   │  D   │  F   │  G   │   │  H   │  J   │  K   │  L   │  Ö   │  Ä   │
+         * │      │ SHFT │ CTRL │ ALT  │ GUI  │      │   │      │ GUI  │ ALT  │ CTRL │ SHFT │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │ SHFT │  Z   │  X   │  C   │  V   │  B   │   │  N   │  M   │  ,   │  .   │  /   │ ENTR │
+         * │      │  Z   │  X   │  C   │  V   │  B   │   │  N   │  M   │  ,;  │  .:  │  ?!  │  "'  │
          * ╰──────┴──────┴──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┴──────┴──────╯
-         *                      │ ALT  │ SPC  │ NUM  │   │ SHFT │ NAV  │ CTRL │
-         *                      │      │ NAV  │      │   │MAGIC │      │      │
+         *                      │MAGIC │ SPC  │ TAB  │   │ ENTR │ BSPC │ NUM  │
+         *                      │SHIFT │ NAV  │      │   │      │ FN   │      │
          *                      ╰──────┴──────┴──────╯   ╰──────┴──────┴──────╯
          */
         base_layer {
             display-name = "Base";
             bindings = <
 // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp TAB    &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &bs_del
+    ___        &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &kp LBKT
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp ESC    &hml LGUI A &hml LALT S &hml LSHFT D &hml LCTRL F &kp G   &kp H      &hmr RCTRL J &hmr RSHFT K &hmr LALT L &hmr RGUI SEMI &kp SQT
+    ___        &hml LSHFT A &hml LCTRL S &hml LALT D &hml LGUI F &kp G   &kp H      &hmr RGUI J &hmr LALT K &hmr RCTRL L &hmr RSHFT SEMI &kp SQT
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &comma_morph &dot_morph &qexcl    &kp RET
+    ___        &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &comma_morph &dot_morph &qexcl    &dblquote_singlequote
 // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     &kp LALT   NAV_SPC    SMART_NUM      MAGIC_SHIFT &mo NAV   &kp RCTRL
+                                     MAGIC_SHIFT NAV_SPC    &kp TAB        &kp RET    FN_BSDEL   SMART_NUM
 //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
@@ -95,17 +94,20 @@
         /*
          * Navigation Layer (NAV)
          *
-         * Left hand: Sticky mods, window management
-         * Right hand: Arrow cluster, editing keys
+         * F&R- Find and replace
+         * Next- Find Next
+         * SWORD - Select Word
+         * SALL - Select All
+         * SURL - Select URL
          *
          * ╭──────┬──────┬──────┬──────┬──────┬──────╮   ╭──────┬──────┬──────┬──────┬──────┬──────╮
-         * │      │ ALT4 │      │ STAB │ SWAP │      │   │ PGUP │ BSPC │  UP  │ DEL  │      │      │
+         * │      │ ALT4 │      │ PWIN │ NWIN │      │   │ PGUP │ FIND │  UP  │ NEXT │      │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │      │ GUI  │ ALT  │ SHFT │ CTRL │      │   │ PGDN │ LEFT │ DOWN │ RGHT │ ENTR │      │
+         * │ CAPS │ SHFT │ CTRL │ ALT  │ GUI  │      │   │ PGDN │ LEFT │ DOWN │ RGHT │ F&R  │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │      │ UNDO │ CUT  │ COPY │PASTE │      │   │ INS  │ HOME │      │ END  │      │      │
+         * │      │      │AltGR │      │      │      │   │ INS  │SWORD │ SALL │ SURL │      │      │
          * ╰──────┴──────┴──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┴──────┴──────╯
-         *                      │      │      │      │   │      │      │CANCEL│
+         *                      │      │ SPC  │ TAB  │   │ ENTR │ bs_dl│CANCEL│
          *                      ╰──────┴──────┴──────╯   ╰──────┴──────┴──────╯
          */
         nav_layer {
@@ -124,93 +126,94 @@
         };
 
         /*
-         * Gaming Layer (GAMING)
+         * Game Layer (GAME)
          *
          * Standard QWERTY without homerow mods for gaming.
-         * Numbers accessible on top row.
-         * Toggle with combo: both outer top keys (LT5 + RT5)
+         * Right side entirely exits game mode on any keypress.
+         * Toggle layer with combo: both outer top keys (LT5 + RT5)
          *
          * ╭──────┬──────┬──────┬──────┬──────┬──────╮   ╭──────┬──────┬──────┬──────┬──────┬──────╮
-         * │ TAB  │  1   │  2   │  3   │  4   │  5   │   │  6   │  7   │  8   │  9   │  0   │ BSPC │
+         * │ ESC  │  I   │  Q   │  W   │  E   │  R   │   │-GAME │-GAME │-GAME │-GAME │-GAME │-GAME │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │ ESC  │  Q   │  W   │  E   │  R   │  T   │   │  Y   │  U   │  I   │  O   │  P   │  '   │
+         * │  G   │ SHFT │  A   │  S   │  D   │  F   │   │-GAME │-GAME │-GAME │-GAME │-GAME │-GAME │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │ SHFT │  A   │  S   │  D   │  F   │  G   │   │  H   │  J   │  K   │  L   │  ;   │ ENTR │
+         * │  V   │ CTRL │  Z   │  X   │  C   │  M   │   │-GAME │-GAME │-GAME │-GAME │-GAME │-GAME │
          * ╰──────┴──────┴──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┴──────┴──────╯
-         *                      │ CTRL │ SPC  │ ALT  │   │ SHFT │ NAV  │ CTRL │
+         *                      │ ALT  │ SPC  │ TAB  │   │-GAME │-GAME │-GAME │
          *                      ╰──────┴──────┴──────╯   ╰──────┴──────┴──────╯
          */
-        gaming_layer {
+        game_layer {
             display-name = "Game";
             bindings = <
 // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp TAB    &kp N1     &kp N2     &kp N3     &kp N4     &kp N5         &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp BSPC
+    &kp ESC    &kp I      &kp Q      &kp W      &kp E      &kp R          &tog GAME  &tog GAME  &tog GAME  &tog GAME  &tog GAME  &tog GAME
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp ESC    &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &kp SQT
+    &kp G      &kp LSHFT  &kp A      &kp S      &kp D      &kp F          &tog GAME  &tog GAME  &tog GAME  &tog GAME  &tog GAME  &tog GAME
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp LSHFT  &kp A      &kp S      &kp D      &kp F      &kp G          &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp RET
+    &kp V      &kp LCTRL  &kp Z      &kp X      &kp C      &kp M          &tog GAME  &tog GAME  &tog GAME  &tog GAME  &tog GAME  &tog GAME
 // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     &kp LCTRL  &kp SPACE  &kp LALT       &kp RSHFT  &mo NAV    &kp RCTRL
+                                     &kp LALT   &kp SPACE  &kp TAB        &tog GAME  &tog GAME  &tog GAME
 //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
 
         /*
-         * Number Layer (NUM)
+         * Number Layer (NUM) - Swedish keyboard optimized
          *
-         * Left hand: Numbers in numpad-style arrangement
-         * Right hand: Function keys and symbols
+         * Homerow mods: SHIFT-CTRL-ALT-GUI (same as base layer)
+         * Left hand: 0=SHIFT, 4=CTRL, 5=ALT, 6=GUI | Numbers in numpad-style arrangement
+         * Right hand: Empty (all keys exit to base)
+         * Thumbs: Mirrors default layer
          *
          * ╭──────┬──────┬──────┬──────┬──────┬──────╮   ╭──────┬──────┬──────┬──────┬──────┬──────╮
-         * │      │  [   │  7   │  8   │  9   │  ]   │   │      │ F7   │ F8   │ F9   │ F12  │      │
+         * │      │  [   │  7   │  8   │  9   │  ]   │   │      │      │      │      │      │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │      │  ;   │  4   │  5   │  6   │  =   │   │      │ F4   │ F5   │ F6   │ F11  │      │
-         * │      │ GUI  │ ALT  │ SHFT │ CTRL │      │   │      │ CTRL │ SHFT │ ALT  │ GUI  │      │
+         * │      │  0   │  4   │  5   │  6   │      │   │      │      │      │      │      │      │
+         * │      │ SHFT │ CTRL │ ALT  │ GUI  │      │   │      │ GUI  │ ALT  │ CTRL │ SHFT │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │      │  `   │  1   │  2   │  3   │  \   │   │      │ F1   │ F2   │ F3   │ F10  │      │
+         * │      │  .:  │  1   │  2   │  3   │  /   │   │      │      │  ,;  │  .:  │  ?!  │  "'  │
          * ╰──────┴──────┴──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┴──────┴──────╯
-         *                      │  .   │  0   │      │   │      │      │      │
+         *                      │      │ SPC  │ TAB  │   │ ENTR │ bs_dl│      │
+         *                      │      │      │      │   │      │      │      │
          *                      ╰──────┴──────┴──────╯   ╰──────┴──────┴──────╯
          */
         num_layer {
             display-name = "Num";
             bindings = <
 // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-    ___        &kp LBKT   &kp N7     &kp N8     &kp N9     &kp RBKT       ___        &kp F7     &kp F8     &kp F9     &kp F12    ___
+    ___        SWE_LBKT   &kp N7     &kp N8     &kp N9     SWE_RBKT       ___        ___        ___        ___        ___        ___
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    ___   &hml LGUI SEMI &hml LALT N4 &hml LSHFT N5 &hml LCTRL N6 &kp EQUAL  ___   &hmr RCTRL F4 &hmr RSHFT F5 &hmr LALT F6 &hmr RGUI F11 ___
+    ___   &hml LSHFT N0 &hml LCTRL N4 &hml LALT N5 &hml LGUI N6 ___        ___        &kp RGUI   &kp LALT   &kp RCTRL  &kp RSHFT  ___
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    ___        &kp GRAVE  &kp N1     &kp N2     &kp N3     &kp BSLH       ___        &kp F1     &kp F2     &kp F3     &kp F10    ___
+    ___        &dot_morph &kp N1     &kp N2     &kp N3     SWE_FSLH       ___        ___        &comma_morph &dot_morph &qexcl    &dblquote_singlequote
 // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     &kp DOT    &kp N0     ___            ___        ___        ___
+                                     ___        &kp SPACE  &kp TAB        &kp RET    &bs_del    ___
 //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
 
         /*
-         * System Layer (SYS) - activated by NAV + NUM
-         *
-         * Bluetooth profile selection, output switching, bootloader
+         * Function Layer (FN)
          *
          * ╭──────┬──────┬──────┬──────┬──────┬──────╮   ╭──────┬──────┬──────┬──────┬──────┬──────╮
-         * │      │ BT 0 │ BT 1 │ BT 2 │ BT 3 │BT CLR│   │      │      │      │      │      │      │
+         * │      │      │      │      │      │      │   │      │      │      │      │      │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │      │      │      │      │      │ BOOT │   │ BOOT │      │      │      │      │      │
+         * │      │      │      │      │      │      │   │      │      │      │      │      │      │
          * ├──────┼──────┼──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┼──────┼──────┤
-         * │      │      │      │      │      │RESET │   │RESET │      │      │      │      │      │
+         * │      │      │      │      │      │      │   │      │      │      │      │      │      │
          * ╰──────┴──────┴──────┼──────┼──────┼──────┤   ├──────┼──────┼──────┼──────┴──────┴──────╯
          *                      │      │      │      │   │      │      │      │
          *                      ╰──────┴──────┴──────╯   ╰──────┴──────┴──────╯
          */
-        sys_layer {
-            display-name = "Sys";
+        fn_layer {
+            display-name = "Fn";
             bindings = <
 // ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-    ___        &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR  ___     ___        ___        ___        ___        ___
+    ___        ___        ___        ___        ___        ___            ___        ___        ___        ___        ___        ___
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    ___        ___        ___        ___        ___        &bootloader    &bootloader ___       ___        ___        ___        ___
+    ___        ___        ___        ___        ___        ___            ___        ___        ___        ___        ___        ___
 // ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-    ___        ___        ___        ___        ___        &sys_reset     &sys_reset ___        ___        ___        ___        ___
+    ___        ___        ___        ___        ___        ___            ___        ___        ___        ___        ___        ___
 // ╰──────────┴──────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┴──────────┴──────────╯
                                      ___        ___        ___            ___        ___        ___
 //                                  ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
