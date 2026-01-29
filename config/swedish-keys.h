@@ -42,54 +42,63 @@
 /* = - Shift+0 */
 #define SWE_EQ &kp LS(N0)
 
-/* ? - Shift+Plus/Equal key */
-#define SWE_QMARK &kp LS(EQUAL)
+/* * - Shift+' (apostrophe key, which is BSLH on US layout) */
+#define SWE_STAR &kp LS(BSLH)
 
-/* + - Plus/Equal key (unshifted) */
-#define SWE_PLUS &kp EQUAL
+/* ? - Shift+Plus key (Swedish +/? key maps to US MINUS) */
+#define SWE_QMARK &kp LS(MINUS)
 
-/* Backtick ` - Backtick/Acute key */
-#define SWE_GRAVE &kp GRAVE
+/* + - Plus key (Swedish +/? key maps to US MINUS) */
+#define SWE_PLUS &kp MINUS
 
-/* ~ (Tilde) - [AltGr] requires special handling or OS layout */
-#define SWE_TILDE &kp LS(GRAVE)
+/* Backtick ` - Shift+Acute key (key right of +) */
+#define SWE_GRAVE &kp LS(EQUAL)
+
+/* Acute accent ´ - Acute key unshifted */
+#define SWE_ACUTE &kp EQUAL
+
+/* ~ (Tilde) - AltGr+Diaeresis key (RBKT) */
+#define SWE_TILDE &kp RA(RBKT)
 
 /* ===== BRACKETS AND BRACES ===== */
 
-/* [ - [AltGr+8] on Swedish layout, may vary by system */
-#define SWE_LBKT &kp LBKT
+/* [ - AltGr+8 on Swedish layout */
+#define SWE_LBKT &kp RA(N8)
 
-/* ] - [AltGr+9] on Swedish layout, may vary by system */
-#define SWE_RBKT &kp RBKT
+/* ] - AltGr+9 on Swedish layout */
+#define SWE_RBKT &kp RA(N9)
 
-/* { - [AltGr+7] typically accessed via physical key position */
-#define SWE_LBRC &kp LS(RBKT)
+/* { - AltGr+7 on Swedish layout */
+#define SWE_LBRC &kp RA(N7)
 
-/* } - [AltGr+0] typically accessed via physical key position */
-#define SWE_RBRC &kp RBKT
+/* } - AltGr+0 on Swedish layout */
+#define SWE_RBRC &kp RA(N0)
 
 /* ===== SPECIAL CHARACTERS ===== */
 
-/* @ - Shift+2 (common on many Nordic layouts, may need adjustment) */
-#define SWE_AT &kp LS(N2)
+/* @ - AltGr+2 on Swedish layout */
+#define SWE_AT &kp RA(N2)
 
-/* $ - Shift+4 (may require special key combination on some Nordic setups) */
-#define SWE_DLLR &kp LS(N4)
+/* $ - AltGr+4 on Swedish layout */
+#define SWE_DLLR &kp RA(N4)
 
-/* ^ (Caret) - typically Shift+` on Nordic layouts */
-#define SWE_CARET &kp LS(GRAVE)
+/* € - AltGr+5 on Swedish layout */
+#define SWE_EURO &kp RA(N5)
 
-/* | (Pipe) - [AltGr+Apostrophe] or other combo */
-#define SWE_PIPE &kp BSLH
+/* ^ (Caret) - Shift+Diaeresis key (RBKT) */
+#define SWE_CARET &kp LS(RBKT)
 
-/* \ (Backslash) - [AltGr+Plus] or Shift+Apostrophe */
-#define SWE_BSLH &kp LS(SQT)
+/* | (Pipe) - AltGr+< key (GRAVE on US layout) */
+#define SWE_PIPE &kp RA(GRAVE)
 
-/* _ (Underscore) - Shift+Minus */
-#define SWE_UNDER &kp LS(MINUS)
+/* \ (Backslash) - AltGr++ key (MINUS on US layout) */
+#define SWE_BSLH &kp RA(MINUS)
 
-/* - (Hyphen/Minus) - Minus key */
-#define SWE_MINUS &kp MINUS
+/* _ (Underscore) - Shift+- key (Swedish -/_ maps to US SLASH) */
+#define SWE_UNDER &kp LS(SLASH)
+
+/* - (Hyphen/Minus) - Hyphen key (Swedish -/_ maps to US SLASH) */
+#define SWE_MINUS &kp SLASH
 
 /* ===== PUNCTUATION ===== */
 

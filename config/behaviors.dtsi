@@ -204,7 +204,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
         qexcl: qexcl {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LS(EQUAL)>, <&kp LS(N1)>;
+            bindings = <&kp LS(MINUS)>, <&kp LS(N1)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
 
@@ -212,14 +212,14 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
         lpar_lt: lpar_lt {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LS(N8)>, <&kp LESS_THAN>;
+            bindings = <&kp LS(N8)>, <&kp GRAVE>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
         /* Parentheses for Swedish: tap = ) | shift = > */
         rpar_gt: rpar_gt {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LS(N9)>, <&kp GREATER_THAN>;
+            bindings = <&kp LS(N9)>, <&kp LS(GRAVE)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
 
@@ -227,14 +227,14 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)
         lbkt_lbrc: lbkt_lbrc {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LBKT>, <&kp LS(RBKT)>;
+            bindings = <&kp RA(N8)>, <&kp RA(N7)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
         /* Brackets for Swedish: tap = ] | shift = } */
         rbkt_rbrc: rbkt_rbrc {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp RBKT>, <&kp LS(LBKT)>;
+            bindings = <&kp RA(N9)>, <&kp RA(N0)>;
             mods = <(MOD_LSFT | MOD_RSFT)>;
         };
 
